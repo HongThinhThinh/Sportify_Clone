@@ -62,6 +62,10 @@ async function initializeSpotifyAPI() {
   try {
     showLoading();
 
+    console.log(
+      `🔗 Đang kết nối Spotify API từ: ${SPOTIFY_CONFIG.REDIRECT_URI}`
+    );
+
     // Thử lấy Client Credentials token
     clientCredentialsToken = await getClientCredentialsToken();
 
@@ -74,10 +78,17 @@ async function initializeSpotifyAPI() {
     } else {
       console.log("❌ Không thể kết nối Spotify API, sử dụng demo tracks");
       updateLoginButton(false);
+      // Vẫn hiển thị demo tracks
+      displayTracks(DEMO_TRACKS, featuredTracks, "grid");
+      currentPlaylist = DEMO_TRACKS;
     }
   } catch (error) {
     console.error("Error initializing Spotify API:", error);
     updateLoginButton(false);
+    // Fallback to demo tracks
+    console.log("📝 Fallback: Hiển thị demo tracks");
+    displayTracks(DEMO_TRACKS, featuredTracks, "grid");
+    currentPlaylist = DEMO_TRACKS;
   } finally {
     hideLoading();
   }
@@ -85,36 +96,59 @@ async function initializeSpotifyAPI() {
 
 function setupEventListeners() {
   // Search functionality
-  searchInput.addEventListener("input", debounce(handleSearch, 500));
-  searchInput.addEventListener("input", toggleClearButton);
-  clearSearchBtn.addEventListener("click", clearSearch);
+  if (searchInput) {
+    searchInput.addEventListener("input", debounce(handleSearch, 500));
+    searchInput.addEventListener("input", toggleClearButton);
+  }
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", clearSearch);
+  }
 
   // Login button
-  loginBtn.addEventListener("click", handleLogin);
+  if (loginBtn) {
+    loginBtn.addEventListener("click", handleLogin);
+  }
 
   // Player controls
-  playBtn.addEventListener("click", togglePlay);
-  prevBtn.addEventListener("click", playPrevious);
-  nextBtn.addEventListener("click", playNext);
+  if (playBtn) {
+    playBtn.addEventListener("click", togglePlay);
+  }
+  if (prevBtn) {
+    prevBtn.addEventListener("click", playPrevious);
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener("click", playNext);
+  }
 
   // Audio player events
-  audioPlayer.addEventListener("loadedmetadata", updateDuration);
-  audioPlayer.addEventListener("timeupdate", updateProgress);
-  audioPlayer.addEventListener("ended", playNext);
-  audioPlayer.addEventListener("error", handleAudioError);
+  if (audioPlayer) {
+    audioPlayer.addEventListener("loadedmetadata", updateDuration);
+    audioPlayer.addEventListener("timeupdate", updateProgress);
+    audioPlayer.addEventListener("ended", playNext);
+    audioPlayer.addEventListener("error", handleAudioError);
+  }
 
   // Volume control
-  volumeSlider.addEventListener("input", updateVolume);
+  if (volumeSlider) {
+    volumeSlider.addEventListener("input", updateVolume);
+  }
 
   // Progress bar click
-  document.querySelector(".progress-bar").addEventListener("click", seekTo);
+  const progressBar = document.querySelector(".progress-bar");
+  if (progressBar) {
+    progressBar.addEventListener("click", seekTo);
+  }
 
   // Spotify Embed controls
-  closeEmbedBtn.addEventListener("click", closeSpotifyEmbed);
-  openPlaylistBtn.addEventListener("click", () => {
-    const playlistId = "1LXrJIgy8GPBsLNgScRMSh";
-    showSpotifyPlaylistEmbed(playlistId);
-  });
+  if (closeEmbedBtn) {
+    closeEmbedBtn.addEventListener("click", closeSpotifyEmbed);
+  }
+  if (openPlaylistBtn) {
+    openPlaylistBtn.addEventListener("click", () => {
+      const playlistId = "1LXrJIgy8GPBsLNgScRMSh";
+      showSpotifyPlaylistEmbed(playlistId);
+    });
+  }
 }
 
 function debounce(func, wait) {
@@ -405,13 +439,19 @@ function playTrack(track, index) {
   currentTrack = track;
   currentIndex = index;
 
-  // Update UI
-  trackImage.src =
-    track.album?.images?.[0]?.url ||
-    track.image ||
-    "https://via.placeholder.com/60x60?text=♪";
-  trackName.textContent = track.name;
-  trackArtist.textContent = track.artists?.[0]?.name || track.artist;
+  // Update UI với error handling
+  if (trackImage) {
+    trackImage.src =
+      track.album?.images?.[0]?.url ||
+      track.image ||
+      "https://via.placeholder.com/60x60?text=♪";
+  }
+  if (trackName) {
+    trackName.textContent = track.name;
+  }
+  if (trackArtist) {
+    trackArtist.textContent = track.artists?.[0]?.name || track.artist;
+  }
 
   // Update active state
   document
@@ -420,8 +460,10 @@ function playTrack(track, index) {
   document.querySelector(`[data-index="${index}"]`)?.classList.add("active");
 
   // Stop current audio
-  audioPlayer.pause();
-  audioPlayer.currentTime = 0;
+  if (audioPlayer) {
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+  }
 
   // Kiểm tra nếu có Spotify track ID, hiển thị embed
   if (track.id && track.external_urls?.spotify) {
@@ -431,7 +473,7 @@ function playTrack(track, index) {
   }
 
   // Play audio preview nếu có
-  if (track.preview_url) {
+  if (track.preview_url && audioPlayer) {
     console.log("🎵 Phát preview từ Spotify:", track.preview_url);
     audioPlayer.src = track.preview_url;
 
@@ -460,6 +502,11 @@ function playTrack(track, index) {
 }
 
 function playDemoAudio() {
+  if (!audioPlayer) {
+    console.error("❌ Audio player không tồn tại");
+    return;
+  }
+
   // Sử dụng một file audio demo có sẵn
   const demoUrl =
     "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3";
@@ -506,8 +553,12 @@ function togglePlay() {
 }
 
 function updatePlayButton() {
-  const icon = playBtn.querySelector("i");
-  icon.className = isPlaying ? "fas fa-pause" : "fas fa-play";
+  if (playBtn) {
+    const icon = playBtn.querySelector("i");
+    if (icon) {
+      icon.className = isPlaying ? "fas fa-pause" : "fas fa-play";
+    }
+  }
 }
 
 function playPrevious() {
@@ -536,11 +587,13 @@ function handleAudioError(e) {
 }
 
 function updateDuration() {
-  duration.textContent = formatTime(audioPlayer.duration);
+  if (duration && audioPlayer) {
+    duration.textContent = formatTime(audioPlayer.duration);
+  }
 }
 
 function updateProgress() {
-  if (audioPlayer.duration) {
+  if (audioPlayer && audioPlayer.duration && progress && currentTime) {
     const progressPercent =
       (audioPlayer.currentTime / audioPlayer.duration) * 100;
     progress.style.width = progressPercent + "%";
@@ -549,6 +602,8 @@ function updateProgress() {
 }
 
 function seekTo(e) {
+  if (!audioPlayer || !audioPlayer.duration) return;
+
   const progressBar = e.currentTarget;
   const clickX = e.offsetX;
   const width = progressBar.offsetWidth;
@@ -557,7 +612,9 @@ function seekTo(e) {
 }
 
 function updateVolume() {
-  audioPlayer.volume = volumeSlider.value / 100;
+  if (audioPlayer && volumeSlider) {
+    audioPlayer.volume = volumeSlider.value / 100;
+  }
 }
 
 function formatTime(seconds) {
@@ -574,11 +631,39 @@ function formatDuration(ms) {
 }
 
 // Initialize volume
-audioPlayer.volume = 0.5;
+if (audioPlayer) {
+  audioPlayer.volume = 0.5;
+}
+
+// Missing functions
+function toggleClearButton() {
+  if (clearSearchBtn && searchInput) {
+    clearSearchBtn.style.display =
+      searchInput.value.length > 0 ? "block" : "none";
+  }
+}
+
+function clearSearch() {
+  if (searchInput) {
+    searchInput.value = "";
+    toggleClearButton();
+    if (resultsSection) {
+      resultsSection.style.display = "none";
+    }
+    if (featuredSection) {
+      featuredSection.style.display = "block";
+    }
+  }
+}
 
 // ===== SPOTIFY EMBED FUNCTIONS =====
 
 function showSpotifyEmbed(track) {
+  if (!spotifyEmbedContainer || !embedTitle || !embedContent) {
+    console.error("❌ Spotify embed elements không tồn tại");
+    return;
+  }
+
   // Tạo embed URL cho track
   const trackId = track.id;
   const embedUrl = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
@@ -636,25 +721,13 @@ function showSpotifyPlaylistEmbed(playlistId) {
 }
 
 function closeSpotifyEmbed() {
-  spotifyEmbedContainer.style.display = "none";
-  embedContent.innerHTML = "";
+  if (spotifyEmbedContainer) {
+    spotifyEmbedContainer.style.display = "none";
+  }
+  if (embedContent) {
+    embedContent.innerHTML = "";
+  }
   console.log("❌ Đã đóng Spotify embed");
-}
-
-// ===== SEARCH UTILITY FUNCTIONS =====
-
-function clearSearch() {
-  searchInput.value = "";
-  resultsSection.style.display = "none";
-  featuredSection.style.display = "block";
-  currentSearchResults = [];
-  clearSearchBtn.style.display = "none";
-  console.log("🔄 Đã xóa tìm kiếm");
-}
-
-function toggleClearButton() {
-  const hasValue = searchInput.value.trim().length > 0;
-  clearSearchBtn.style.display = hasValue ? "block" : "none";
 }
 
 // ===== SPOTIFY API FUNCTIONS =====
