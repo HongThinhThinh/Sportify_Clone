@@ -465,14 +465,14 @@ function playTrack(track, index) {
     audioPlayer.currentTime = 0;
   }
 
-  // Kiểm tra nếu có Spotify track ID, hiển thị embed
+  // Kiểm tra nếu có Spotify track ID, hiển thị embed cho bài hát cụ thể
   if (track.id && track.external_urls?.spotify) {
-    console.log("🎵 Mở Spotify embed cho track:", track.name);
+    console.log("🎵 Mở Spotify embed cho bài hát:", track.name);
     showSpotifyEmbed(track);
     return;
   }
 
-  // Play audio preview nếu có
+  // Nếu không có Spotify ID, phát demo audio
   if (track.preview_url && audioPlayer) {
     console.log("🎵 Phát preview từ Spotify:", track.preview_url);
     audioPlayer.src = track.preview_url;
@@ -664,7 +664,7 @@ function showSpotifyEmbed(track) {
     return;
   }
 
-  // Tạo embed URL cho track
+  // Tạo embed URL cho track cụ thể với full controls
   const trackId = track.id;
   const embedUrl = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
 
@@ -673,14 +673,14 @@ function showSpotifyEmbed(track) {
     track.artists?.[0]?.name || track.artist
   }`;
 
-  // Tạo iframe
+  // Tạo iframe với full controls cho bài hát cụ thể
   embedContent.innerHTML = `
     <iframe
       title="Spotify Embed: ${track.name}"
       src="${embedUrl}"
       width="100%"
       height="100%"
-      style="min-height: 360px; border-radius: 12px;"
+      style="min-height: 400px; border-radius: 12px; border: none;"
       frameBorder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
@@ -690,24 +690,29 @@ function showSpotifyEmbed(track) {
   // Hiển thị container
   spotifyEmbedContainer.style.display = "block";
 
-  console.log("✅ Đã mở Spotify embed cho:", track.name);
+  console.log("✅ Đã mở Spotify embed cho bài hát:", track.name);
 }
 
 function showSpotifyPlaylistEmbed(playlistId) {
-  // Sử dụng playlist ID mà bạn đã cung cấp
+  if (!spotifyEmbedContainer || !embedTitle || !embedContent) {
+    console.error("❌ Spotify embed elements không tồn tại");
+    return;
+  }
+
+  // Sử dụng playlist ID với full controls
   const embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`;
 
   // Cập nhật title
-  embedTitle.textContent = "🎵 Spotify Playlist";
+  embedTitle.textContent = "🎵 Spotify Playlist - Full Controls";
 
-  // Tạo iframe
+  // Tạo iframe với full controls
   embedContent.innerHTML = `
     <iframe
       title="Spotify Embed: Recommendation Playlist"
       src="${embedUrl}"
       width="100%"
       height="100%"
-      style="min-height: 360px; border-radius: 12px;"
+      style="min-height: 400px; border-radius: 12px; border: none;"
       frameBorder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
@@ -717,7 +722,7 @@ function showSpotifyPlaylistEmbed(playlistId) {
   // Hiển thị container
   spotifyEmbedContainer.style.display = "block";
 
-  console.log("✅ Đã mở Spotify playlist embed");
+  console.log("✅ Đã mở Spotify playlist embed với full controls");
 }
 
 function closeSpotifyEmbed() {
