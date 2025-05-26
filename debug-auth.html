@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Spotify Auth</title>
+</head>
+<body>
+    <h1>🔧 Debug Spotify Authentication</h1>
+    
+    <div id="info"></div>
+    
+    <script>
+        const CLIENT_ID = "1c4a3ae975784635a3c2ab7830df56a1";
+        
+        // Hiển thị thông tin debug
+        const info = document.getElementById('info');
+        
+        info.innerHTML = `
+            <h3>🔍 Debug Info:</h3>
+            <p><strong>Current URL:</strong> ${window.location.href}</p>
+            <p><strong>Origin:</strong> ${window.location.origin}</p>
+            <p><strong>Pathname:</strong> ${window.location.pathname}</p>
+            <p><strong>Config Redirect URI:</strong> http://127.0.0.1:5500</p>
+            
+            <h3>🎯 Test URLs:</h3>
+            <button onclick="testAuth1()">Test với http://127.0.0.1:5500</button><br><br>
+            <button onclick="testAuth2()">Test với http://127.0.0.1:5500/</button><br><br>
+            <button onclick="testAuth3()">Test với http://127.0.0.1:5500/index.html</button><br><br>
+            
+            <h3>📝 Hướng dẫn:</h3>
+            <ol>
+                <li>Thử từng nút test ở trên</li>
+                <li>Nếu vẫn lỗi, cập nhật Spotify App Settings</li>
+                <li>Thêm tất cả 3 URLs vào Redirect URIs</li>
+            </ol>
+        `;
+        
+        function testAuth1() {
+            const redirectUri = "http://127.0.0.1:5500";
+            const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user-read-private`;
+            window.location.href = authUrl;
+        }
+        
+        function testAuth2() {
+            const redirectUri = "http://127.0.0.1:5500/";
+            const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user-read-private`;
+            window.location.href = authUrl;
+        }
+        
+        function testAuth3() {
+            const redirectUri = "http://127.0.0.1:5500/index.html";
+            const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(redirectUri)}&scope=user-read-private`;
+            window.location.href = authUrl;
+        }
+    </script>
+</body>
+</html>

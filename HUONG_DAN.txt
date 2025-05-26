@@ -1,0 +1,69 @@
+🎵 SPORTIFY WEB PLAYER - HƯỚNG DẪN SỬ DỤNG
+
+📁 CẤU TRÚC DỰ ÁN:
+- index.html    : Giao diện chính
+- styles.css    : Styling
+- script.js     : Logic JavaScript
+- config.js     : Cấu hình Spotify API
+
+🚀 CÁCH SỬ DỤNG:
+
+1. MỞ TRỰC TIẾP:
+   - Double click vào file index.html
+   - Hoặc kéo thả vào trình duyệt
+
+2. CHẠY QUA HTTP SERVER (Khuyến nghị):
+   - Python: python -m http.server 8000
+   - Node.js: npx http-server
+   - Live Server extension trong VS Code
+
+🔧 THIẾT LẬP SPOTIFY API (KHÔNG CẦN ĐĂNG NHẬP):
+
+1. Truy cập: https://developer.spotify.com/dashboard
+2. Tạo App mới với thông tin:
+   - App Name: Sportify Web Player
+   - App Description: Music streaming web app
+   - Website: http://localhost:8000 (hoặc domain của bạn)
+   - Redirect URI: http://127.0.0.1:5500 (cho testing)
+
+3. Copy Client ID vào config.js
+4. Copy Client Secret vào config.js (xem SETUP_CLIENT_SECRET.md)
+5. Khởi động lại ứng dụng
+
+🎵 TÍNH NĂNG MỚI:
+
+🔥 TỰ ĐỘNG KẾT NỐI SPOTIFY API:
+- ✅ KHÔNG CẦN đăng nhập người dùng
+- ✅ Nhạc HOT từ Featured Playlists
+- ✅ New Releases mới nhất
+- ✅ Tìm kiếm real-time toàn bộ Spotify
+- ✅ Preview 30s miễn phí
+- ✅ Cover art chất lượng cao
+- ✅ Thông tin chi tiết nghệ sĩ/album
+- ✅ Hoạt động ngay khi mở trang
+
+📝 FALLBACK:
+- Nếu không có Client Secret: hiển thị demo tracks
+- Nếu lỗi API: tự động chuyển sang demo mode
+- Demo tracks vẫn có thể phát và tìm kiếm
+
+🎶 AUDIO DEMO:
+- Mỗi track có âm thanh demo riêng
+- Sử dụng Web Audio API tạo tones
+- Tự động fallback khi URL lỗi
+- Console log chi tiết quá trình
+
+🔍 TEST SEARCH:
+- Gõ "chill" → tìm "Chill Lofi Beat"
+- Gõ "guitar" → tìm "Acoustic Guitar"
+- Gõ "piano" → tìm "Piano Melody"
+- Gõ "electronic" → tìm "Electronic Vibes"
+- Gõ tên nghệ sĩ: "lofi", "dj", "virtuoso"
+
+⚠️ LƯU Ý:
+- Icon 🎵 = Có audio demo
+- Tất cả tracks đều có thể "nghe"
+- Chỉ sử dụng HTML/CSS/JS thuần
+- Không cần cài đặt thêm gì
+
+🎧 Enjoy your music!
