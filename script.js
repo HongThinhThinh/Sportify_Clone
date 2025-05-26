@@ -218,7 +218,22 @@ async function loadFeaturedTracks() {
 
 async function getPopularTracks() {
   try {
-    const popularQueries = ["pop", "trending", "viral", "hits"];
+    // Các từ khóa tìm kiếm nhạc hot quốc tế và Việt Nam
+    const popularQueries = [
+      "top hits 2024",
+      "viral songs",
+      "trending music",
+      "pop hits",
+      "vietnamese music",
+      "vpop",
+      "son tung mtp",
+      "den vau",
+      "jack vietnam",
+      "amee vietnam",
+      "erik vietnam",
+      "min vietnam",
+    ];
+
     const tracks = [];
 
     for (let query of popularQueries) {
@@ -229,7 +244,8 @@ async function getPopularTracks() {
           searchResults.tracks &&
           searchResults.tracks.items
         ) {
-          const queryTracks = searchResults.tracks.items.slice(0, 2);
+          // Lấy tất cả tracks có preview_url, không chỉ lọc
+          const queryTracks = searchResults.tracks.items.slice(0, 2); // Lấy 2 tracks đầu tiên từ mỗi query
           tracks.push(...queryTracks);
           console.log(`✅ Thêm ${queryTracks.length} tracks từ "${query}"`);
         }
@@ -237,13 +253,19 @@ async function getPopularTracks() {
         console.log(`❌ Lỗi search "${query}":`, error.message);
       }
 
-      if (tracks.length >= 8) break;
+      if (tracks.length >= 12) break;
     }
 
-    return tracks.slice(0, 8);
+    // Nếu không có tracks từ Spotify, trả về demo tracks
+    if (tracks.length === 0) {
+      console.log("📝 Không tìm thấy tracks từ Spotify, sử dụng demo tracks");
+      return DEMO_TRACKS;
+    }
+
+    return tracks.slice(0, 12);
   } catch (error) {
     console.error("Error getting popular tracks:", error);
-    return [];
+    return DEMO_TRACKS;
   }
 }
 

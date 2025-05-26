@@ -15,7 +15,7 @@
         <div class="container">
             <div class="logo">
                 <i class="fas fa-music"></i>
-                <h1>Thify</h1>
+                <h1>Thinify</h1>
             </div>
             <nav class="nav">
                 <button id="loginBtn" class="login-btn">
@@ -45,14 +45,14 @@
             <!-- Featured Section -->
             <section class="featured-section">
                 <div class="section-header">
-                    <h2>🔥 Nhạc HOT từ Spotify</h2>
+                    <h2>Nhạc HOT Việt Nam</h2>
                     <button id="openPlaylistBtn" class="playlist-btn">
                         <i class="fab fa-spotify"></i>
                         Mở Playlist Spotify
                     </button>
                 </div>
                 <div id="featuredTracks" class="track-grid">
-                    <!-- Hot tracks from Spotify will be loaded here -->
+                    <!-- Hot Vietnamese tracks from Spotify will be loaded here -->
                 </div>
             </section>
 
@@ -67,36 +67,7 @@
     </main>
 
     <!-- Music Player -->
-    <div class="music-player" id="musicPlayer">
-        <div class="player-content">
-            <div class="track-info">
-                <img id="trackImage" src="https://via.placeholder.com/60" alt="Track">
-                <div class="track-details">
-                    <h4 id="trackName">Chọn một bài hát</h4>
-                    <p id="trackArtist">Nghệ sĩ</p>
-                </div>
-            </div>
 
-            <div class="player-controls">
-                <button id="prevBtn"><i class="fas fa-step-backward"></i></button>
-                <button id="playBtn" class="play-btn"><i class="fas fa-play"></i></button>
-                <button id="nextBtn"><i class="fas fa-step-forward"></i></button>
-            </div>
-
-            <div class="player-progress">
-                <span id="currentTime">0:00</span>
-                <div class="progress-bar">
-                    <div class="progress" id="progress"></div>
-                </div>
-                <span id="duration">0:00</span>
-            </div>
-
-            <div class="volume-control">
-                <i class="fas fa-volume-up"></i>
-                <input type="range" id="volumeSlider" min="0" max="100" value="50">
-            </div>
-        </div>
-    </div>
 
     <!-- Spotify Embed Player -->
     <div class="spotify-embed-container" id="spotifyEmbedContainer" style="display: none;">

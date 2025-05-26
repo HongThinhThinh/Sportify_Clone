@@ -28,16 +28,16 @@ const SPOTIFY_CONFIG = {
   TOKEN_URL: "https://accounts.spotify.com/api/token",
 };
 
-// Demo tracks với audio URLs thực tế
+// Demo tracks với nhạc Việt Nam hot
 const DEMO_TRACKS = [
   {
     id: "demo1",
-    name: "Chill Lofi Beat",
-    artists: [{ name: "Lofi Master" }],
+    name: "Chúng Ta Của Hiện Tại",
+    artists: [{ name: "Sơn Tùng M-TP" }],
     album: {
       images: [
         {
-          url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop",
+          url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&auto=format",
         },
       ],
     },
@@ -47,12 +47,12 @@ const DEMO_TRACKS = [
   },
   {
     id: "demo2",
-    name: "Acoustic Guitar",
-    artists: [{ name: "Guitar Hero" }],
+    name: "Anh Đang Ở Đâu Đấy Anh",
+    artists: [{ name: "Hương Giang" }],
     album: {
       images: [
         {
-          url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop",
+          url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop&auto=format",
         },
       ],
     },
@@ -62,12 +62,12 @@ const DEMO_TRACKS = [
   },
   {
     id: "demo3",
-    name: "Electronic Vibes",
-    artists: [{ name: "DJ Electronic" }],
+    name: "Bước Qua Mùa Cô Đơn",
+    artists: [{ name: "Vũ." }],
     album: {
       images: [
         {
-          url: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=300&h=300&fit=crop",
+          url: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=300&h=300&fit=crop&auto=format",
         },
       ],
     },
@@ -77,18 +77,138 @@ const DEMO_TRACKS = [
   },
   {
     id: "demo4",
-    name: "Piano Melody",
-    artists: [{ name: "Piano Virtuoso" }],
+    name: "Đen Đá Không Đường",
+    artists: [{ name: "Đen Vâu ft. Kiều Minh Tuấn" }],
     album: {
       images: [
         {
-          url: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop",
+          url: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop&auto=format",
         },
       ],
     },
     preview_url:
       "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
     duration_ms: 32000,
+  },
+  {
+    id: "demo5",
+    name: "Dreamy Night",
+    artists: [{ name: "AMEE" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 30000,
+  },
+  {
+    id: "demo6",
+    name: "Ghen Cô Vy",
+    artists: [{ name: "ERIK ft. MIN" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 25000,
+  },
+  {
+    id: "demo7",
+    name: "Lạc Trôi",
+    artists: [{ name: "Sơn Tùng M-TP" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 28000,
+  },
+  {
+    id: "demo8",
+    name: "Hai Triệu Năm",
+    artists: [{ name: "Đen Vâu ft. Biên" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 30000,
+  },
+  {
+    id: "demo9",
+    name: "Sài Gòn Đau Lòng Quá",
+    artists: [{ name: "Hứa Kim Tuyền ft. Hoàng Dũng" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 27000,
+  },
+  {
+    id: "demo10",
+    name: "Thương Em",
+    artists: [{ name: "AMEE" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 29000,
+  },
+  {
+    id: "demo11",
+    name: "Có Chắc Yêu Là Đây",
+    artists: [{ name: "Sơn Tùng M-TP" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 31000,
+  },
+  {
+    id: "demo12",
+    name: "Muộn Rồi Mà Sao Còn",
+    artists: [{ name: "Sơn Tùng M-TP" }],
+    album: {
+      images: [
+        {
+          url: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=300&h=300&fit=crop&auto=format",
+        },
+      ],
+    },
+    preview_url:
+      "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+    duration_ms: 26000,
   },
 ];
 
