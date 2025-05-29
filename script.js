@@ -145,7 +145,7 @@ function setupEventListeners() {
   }
   if (openPlaylistBtn) {
     openPlaylistBtn.addEventListener("click", () => {
-      const playlistId = "1LXrJIgy8GPBsLNgScRMSh";
+      const playlistId = "7rUUZlPX8GR0GQGP7cItj8"; // Playlist ID bạn đã cung cấp
       showSpotifyPlaylistEmbed(playlistId);
     });
   }
@@ -465,16 +465,17 @@ function playTrack(track, index) {
     audioPlayer.currentTime = 0;
   }
 
-  // Kiểm tra nếu có Spotify track ID, hiển thị embed cho bài hát cụ thể
+  // LUÔN ƯU TIÊN SPOTIFY EMBED CHO FULL TRACK PLAYBACK
   if (track.id && track.external_urls?.spotify) {
-    console.log("🎵 Mở Spotify embed cho bài hát:", track.name);
+    console.log("🎵 Mở Spotify embed cho toàn bộ bài hát:", track.name);
     showSpotifyEmbed(track);
     return;
   }
 
-  // Nếu không có Spotify ID, phát demo audio
+  // Fallback: Nếu không có Spotify ID, thử phát preview 30s
   if (track.preview_url && audioPlayer) {
-    console.log("🎵 Phát preview từ Spotify:", track.preview_url);
+    console.log("🎵 Phát preview 30s từ Spotify:", track.preview_url);
+    showPreviewNotification();
     audioPlayer.src = track.preview_url;
 
     audioPlayer.onloadstart = () => console.log("⏳ Đang tải audio...");
@@ -489,7 +490,7 @@ function playTrack(track, index) {
       .then(() => {
         isPlaying = true;
         updatePlayButton();
-        console.log("🎶 Đang phát:", track.name);
+        console.log("🎶 Đang phát preview 30s:", track.name);
       })
       .catch((error) => {
         console.error("❌ Lỗi phát audio:", error);
@@ -664,65 +665,109 @@ function showSpotifyEmbed(track) {
     return;
   }
 
-  // Tạo embed URL cho track cụ thể với full controls
+  // Lấy track ID từ Spotify track
   const trackId = track.id;
+
+  // Tạo embed URL theo format bạn yêu cầu
   const embedUrl = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
 
-  // Cập nhật title
-  embedTitle.textContent = `🎵 ${track.name} - ${
+  // Cập nhật title với thông báo full track
+  embedTitle.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span>🎵 ${track.name} - ${
     track.artists?.[0]?.name || track.artist
-  }`;
+  }</span>
+      <span style="background: #1ed760; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+        FULL TRACK
+      </span>
+    </div>
+  `;
 
-  // Tạo iframe với full controls cho bài hát cụ thể
+  // Tạo iframe theo format bạn yêu cầu
   embedContent.innerHTML = `
     <iframe
       title="Spotify Embed: ${track.name}"
       src="${embedUrl}"
       width="100%"
       height="100%"
-      style="min-height: 400px; border-radius: 12px; border: none;"
+      style="min-height: 360px; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
       frameBorder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
     </iframe>
   `;
 
-  // Hiển thị container
+  // Hiển thị container với animation
   spotifyEmbedContainer.style.display = "block";
+  spotifyEmbedContainer.style.opacity = "0";
+  setTimeout(() => {
+    spotifyEmbedContainer.style.opacity = "1";
+  }, 100);
 
-  console.log("✅ Đã mở Spotify embed cho bài hát:", track.name);
+  // Scroll to embed player
+  setTimeout(() => {
+    spotifyEmbedContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 300);
+
+  console.log("✅ Đã mở Spotify embed cho toàn bộ bài hát:", track.name);
+  console.log("🔗 Track ID:", trackId);
+  console.log("🔗 Embed URL:", embedUrl);
 }
 
-function showSpotifyPlaylistEmbed(playlistId) {
+function showSpotifyPlaylistEmbed(playlistId = "7rUUZlPX8GR0GQGP7cItj8") {
   if (!spotifyEmbedContainer || !embedTitle || !embedContent) {
     console.error("❌ Spotify embed elements không tồn tại");
     return;
   }
 
-  // Sử dụng playlist ID với full controls
+  // Sử dụng playlist ID theo format bạn yêu cầu
   const embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`;
 
   // Cập nhật title
-  embedTitle.textContent = "🎵 Spotify Playlist - Full Controls";
+  embedTitle.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span>🎵 Spotify Playlist - Full Controls</span>
+      <span style="background: #1ed760; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+        PLAYLIST
+      </span>
+    </div>
+  `;
 
-  // Tạo iframe với full controls
+  // Tạo iframe theo format bạn yêu cầu
   embedContent.innerHTML = `
     <iframe
       title="Spotify Embed: Recommendation Playlist"
       src="${embedUrl}"
       width="100%"
       height="100%"
-      style="min-height: 400px; border-radius: 12px; border: none;"
+      style="min-height: 360px; border-radius: 12px; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.3);"
       frameBorder="0"
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy">
     </iframe>
   `;
 
-  // Hiển thị container
+  // Hiển thị container với animation
   spotifyEmbedContainer.style.display = "block";
+  spotifyEmbedContainer.style.opacity = "0";
+  setTimeout(() => {
+    spotifyEmbedContainer.style.opacity = "1";
+  }, 100);
+
+  // Scroll to embed player
+  setTimeout(() => {
+    spotifyEmbedContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  }, 300);
 
   console.log("✅ Đã mở Spotify playlist embed với full controls");
+  console.log("🔗 Playlist ID:", playlistId);
+  console.log("🔗 Embed URL:", embedUrl);
 }
 
 function closeSpotifyEmbed() {
@@ -733,6 +778,55 @@ function closeSpotifyEmbed() {
     embedContent.innerHTML = "";
   }
   console.log("❌ Đã đóng Spotify embed");
+}
+
+// Function để hiển thị thông báo khi phát preview 30s
+function showPreviewNotification() {
+  // Tạo notification element nếu chưa có
+  let notification = document.getElementById("preview-notification");
+  if (!notification) {
+    notification = document.createElement("div");
+    notification.id = "preview-notification";
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ff6b6b, #ffa500);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      z-index: 10000;
+      font-size: 14px;
+      font-weight: bold;
+      max-width: 300px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    `;
+    document.body.appendChild(notification);
+  }
+
+  notification.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span>⏱️</span>
+      <div>
+        <div>Đang phát preview 30s</div>
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 2px;">
+          Click vào bài hát để nghe toàn bộ
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Show notification
+  setTimeout(() => {
+    notification.style.transform = "translateX(0)";
+  }, 100);
+
+  // Auto hide after 4 seconds
+  setTimeout(() => {
+    notification.style.transform = "translateX(100%)";
+  }, 4000);
 }
 
 // ===== SPOTIFY API FUNCTIONS =====
